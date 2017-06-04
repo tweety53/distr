@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -23,39 +22,115 @@ const app = new Vue({
 
 var Chart = require('chart.js');
 var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
+
+var gaussian = require('gaussian');
+
+var mean1, mean2, mean3, variance1, variance2, variance3, alpha1, alpha2, alpha3;
+
+var result1 = [];
+var result2 = [];
+var result3 = [];
+var result = [];
+
+var myChart;
+
+$('#build-chart').on('click', function () {
+    myChart = null;
+    result1 = [];
+    result2 = [];
+    result3 = [];
+    result = [];
+    mean1 = $('#mean1').val();
+    mean2 = $('#mean2').val();
+    mean3 = $('#mean3').val();
+    alpha1 = $('#alpha1').val();
+    alpha2 = $('#alpha2').val();
+    alpha3 = $('#alpha3').val();
+    variance1 = $('#variance1').val();
+    variance2 = $('#variance2').val();
+    variance3 = $('#variance3').val();
+
+    console.log(alpha1);
+    console.log(alpha2);
+    console.log(alpha3);
+
+    var distribution1 = gaussian(mean1, variance1);
+    var distribution2 = gaussian(mean2, variance2);
+    var distribution3 = gaussian(mean3, variance3);
+
+    for (var i = -5; i <= 5; i++) {
+        var sample1 = distribution1.pdf(i);
+        result1.push(sample1);
+        var sample2 = distribution2.pdf(i);
+        result2.push(sample2);
+        var sample3 = distribution3.pdf(i);
+        result3.push(sample3);
+
+        var sample = alpha1 * sample1 + alpha2 * sample2 + alpha3 * sample3;
+        result.push(sample);
     }
+
+    console.log(result);
+
+
+
+
+
+
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5],
+            datasets: [{
+                label: 'X 1',
+                data: result1,
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true
+            },
+                {
+                    label: 'X 2',
+                    data: result2,
+                    backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    hidden: true
+                },
+                {
+                    label: 'X 3',
+                    data: result3,
+                    backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    hidden: true
+                },
+                {
+                    label: 'X',
+                    data: result,
+                    backgroundColor: 'rgba(132, 0, 0, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }
+
+            ]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+
 });
+
+
+
+

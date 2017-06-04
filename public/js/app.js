@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 204);
+/******/ 	return __webpack_require__(__webpack_require__.s = 205);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -16049,7 +16049,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(199)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(200)))
 
 /***/ }),
 /* 119 */
@@ -29085,7 +29085,6 @@ module.exports = g;
 /* 173 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -29094,7 +29093,7 @@ module.exports = g;
 
 __webpack_require__(195);
 
-window.Vue = __webpack_require__(203);
+window.Vue = __webpack_require__(204);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29102,7 +29101,7 @@ window.Vue = __webpack_require__(203);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(200));
+Vue.component('example', __webpack_require__(201));
 
 var app = new Vue({
     el: '#app'
@@ -29110,27 +29109,100 @@ var app = new Vue({
 
 var Chart = __webpack_require__(119);
 var ctx = document.getElementById("myChart");
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
-            backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)', 'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
-            borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
+
+var gaussian = __webpack_require__(197);
+
+var mean1, mean2, mean3, variance1, variance2, variance3, alpha1, alpha2, alpha3;
+
+var result1 = [];
+var result2 = [];
+var result3 = [];
+var result = [];
+
+var myChart;
+
+$('#build-chart').on('click', function () {
+    myChart = null;
+    result1 = [];
+    result2 = [];
+    result3 = [];
+    result = [];
+    mean1 = $('#mean1').val();
+    mean2 = $('#mean2').val();
+    mean3 = $('#mean3').val();
+    alpha1 = $('#alpha1').val();
+    alpha2 = $('#alpha2').val();
+    alpha3 = $('#alpha3').val();
+    variance1 = $('#variance1').val();
+    variance2 = $('#variance2').val();
+    variance3 = $('#variance3').val();
+
+    console.log(alpha1);
+    console.log(alpha2);
+    console.log(alpha3);
+
+    var distribution1 = gaussian(mean1, variance1);
+    var distribution2 = gaussian(mean2, variance2);
+    var distribution3 = gaussian(mean3, variance3);
+
+    for (var i = -5; i <= 5; i++) {
+        var sample1 = distribution1.pdf(i);
+        result1.push(sample1);
+        var sample2 = distribution2.pdf(i);
+        result2.push(sample2);
+        var sample3 = distribution3.pdf(i);
+        result3.push(sample3);
+
+        var sample = alpha1 * sample1 + alpha2 * sample2 + alpha3 * sample3;
+        result.push(sample);
     }
+
+    console.log(result);
+
+    myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5],
+            datasets: [{
+                label: 'X 1',
+                data: result1,
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true
+            }, {
+                label: 'X 2',
+                data: result2,
+                backgroundColor: 'rgba(0, 255, 0, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true
+            }, {
+                label: 'X 3',
+                data: result3,
+                backgroundColor: 'rgba(0, 0, 255, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1,
+                hidden: true
+            }, {
+                label: 'X',
+                data: result,
+                backgroundColor: 'rgba(132, 0, 0, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
 });
 
 /***/ }),
@@ -30016,7 +30088,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(198);
+window._ = __webpack_require__(199);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -30025,7 +30097,7 @@ window._ = __webpack_require__(198);
  */
 
 try {
-  window.$ = window.jQuery = __webpack_require__(197);
+  window.$ = window.jQuery = __webpack_require__(198);
 
   __webpack_require__(196);
 } catch (e) {}
@@ -32441,6 +32513,125 @@ if (typeof jQuery === 'undefined') {
 
 /***/ }),
 /* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+(function(exports) {
+
+  // Complementary error function
+  // From Numerical Recipes in C 2e p221
+  var erfc = function(x) {
+    var z = Math.abs(x);
+    var t = 1 / (1 + z / 2);
+    var r = t * Math.exp(-z * z - 1.26551223 + t * (1.00002368 +
+            t * (0.37409196 + t * (0.09678418 + t * (-0.18628806 +
+            t * (0.27886807 + t * (-1.13520398 + t * (1.48851587 +
+            t * (-0.82215223 + t * 0.17087277)))))))))
+    return x >= 0 ? r : 2 - r;
+  };
+
+  // Inverse complementary error function
+  // From Numerical Recipes 3e p265
+  var ierfc = function(x) {
+    if (x >= 2) { return -100; }
+    if (x <= 0) { return 100; }
+
+    var xx = (x < 1) ? x : 2 - x;
+    var t = Math.sqrt(-2 * Math.log(xx / 2));
+
+    var r = -0.70711 * ((2.30753 + t * 0.27061) /
+            (1 + t * (0.99229 + t * 0.04481)) - t);
+
+    for (var j = 0; j < 2; j++) {
+      var err = erfc(r) - xx;
+      r += err / (1.12837916709551257 * Math.exp(-(r * r)) - r * err);
+    }
+
+    return (x < 1) ? r : -r;
+  };
+
+  // Models the normal distribution
+  var Gaussian = function(mean, variance) {
+    if (variance <= 0) {
+      throw new Error('Variance must be > 0 (but was ' + variance + ')');
+    }
+    this.mean = mean;
+    this.variance = variance;
+    this.standardDeviation = Math.sqrt(variance);
+  }
+
+  // Probability density function
+  Gaussian.prototype.pdf = function(x) {
+    var m = this.standardDeviation * Math.sqrt(2 * Math.PI);
+    var e = Math.exp(-Math.pow(x - this.mean, 2) / (2 * this.variance));
+    return e / m;
+  };
+
+  // Cumulative density function
+  Gaussian.prototype.cdf = function(x) {
+    return 0.5 * erfc(-(x - this.mean) / (this.standardDeviation * Math.sqrt(2)));
+  };
+
+  // Percent point function
+  Gaussian.prototype.ppf = function(x) {
+    return this.mean - this.standardDeviation * Math.sqrt(2) * ierfc(2 * x);
+  };
+
+  // Product distribution of this and d (scale for constant)
+  Gaussian.prototype.mul = function(d) {
+    if (typeof(d) === "number") {
+      return this.scale(d);
+    }
+    var precision = 1 / this.variance;
+    var dprecision = 1 / d.variance;
+    return fromPrecisionMean(
+        precision + dprecision, 
+        precision * this.mean + dprecision * d.mean);
+  };
+
+  // Quotient distribution of this and d (scale for constant)
+  Gaussian.prototype.div = function(d) {
+    if (typeof(d) === "number") {
+      return this.scale(1 / d);
+    }
+    var precision = 1 / this.variance;
+    var dprecision = 1 / d.variance;
+    return fromPrecisionMean(
+        precision - dprecision, 
+        precision * this.mean - dprecision * d.mean);
+  };
+
+  // Addition of this and d
+  Gaussian.prototype.add = function(d) {
+    return gaussian(this.mean + d.mean, this.variance + d.variance);
+  };
+
+  // Subtraction of this and d
+  Gaussian.prototype.sub = function(d) {
+    return gaussian(this.mean - d.mean, this.variance + d.variance);
+  };
+
+  // Scale this by constant c
+  Gaussian.prototype.scale = function(c) {
+    return gaussian(this.mean * c, this.variance * c * c);
+  };
+
+  var gaussian = function(mean, variance) {
+    return new Gaussian(mean, variance);
+  };
+
+  var fromPrecisionMean = function(precision, precisionmean) {
+    return gaussian(precisionmean / precision, 1 / precision);
+  };
+
+  exports(gaussian);
+})
+( true
+    ? function(e) { module.exports = e; }
+    : function(e) { this["gaussian"] = e; });
+
+
+/***/ }),
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -42700,7 +42891,7 @@ return jQuery;
 
 
 /***/ }),
-/* 198 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -59792,7 +59983,7 @@ return jQuery;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(172), __webpack_require__(117)(module)))
 
 /***/ }),
-/* 199 */
+/* 200 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -59978,14 +60169,14 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 200 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(201)(
+var Component = __webpack_require__(202)(
   /* script */
   __webpack_require__(194),
   /* template */
-  __webpack_require__(202),
+  __webpack_require__(203),
   /* scopeId */
   null,
   /* cssModules */
@@ -60012,7 +60203,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 201 */
+/* 202 */
 /***/ (function(module, exports) {
 
 // this module is a runtime utility for cleaner component module output and will
@@ -60069,7 +60260,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 202 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -60098,7 +60289,7 @@ if (false) {
 }
 
 /***/ }),
-/* 203 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -69426,7 +69617,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(172)))
 
 /***/ }),
-/* 204 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(173);
