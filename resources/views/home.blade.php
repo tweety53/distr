@@ -4,13 +4,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Dashboard</div>
 
-                    <div class="panel-body">
-                        You are logged in!
-                    </div>
-                </div>
             </div>
         </div>
         <div>
@@ -54,11 +48,43 @@
                     </div>
                 </div>
 
-                <a  class="btn btn-default" id="build-chart">Build</a>
+                <a class="btn btn-default" id="build-chart">Build</a>
             </form>
         </div>
+        <div class="row">
+            <div class="col-md-9">
+                <canvas id="myChart" width="800" height="500"></canvas>
+            </div>
+            <div class="col-md-3 pull-right">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Probability density function:</div>
 
-        <canvas id="myChart" width="800" height="500"></canvas>
+                    <div class="panel-body">
+                        $$f(x) = {1 \over \sigma  \sqrt{2\pi}}  e^{-1/2{x-\mu \over \sigma}^2}.$$
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Cumulative density function:</div>
+
+                    <div class="panel-body">
+                        $$F(x) = {\int_{-\infty}^x {e^{-x^2 \over 2} \over \sqrt{2\pi}}}.$$
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <p class="mx">M(x) =  </p>
+                        <p class="dx">D(x) =  </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
 
 
     </div>
